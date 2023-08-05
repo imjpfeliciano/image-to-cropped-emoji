@@ -22,7 +22,7 @@ const App = () => {
           <h2 className="font-semibold text-xl mb-4">
             Emoji generation settings
           </h2>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-4">
               <div className="font-bold flex flex-row gap-2">
                 <Slider
@@ -41,12 +41,20 @@ const App = () => {
                 />
               </div>
             </div>
-            <div className="flex gap-4 items-center">
-              <div className="font-bold flex flex-row gap-2">
-                <label htmlFor="cols">Emoji Name</label>
-                <input type="number" name="cols" id="cols" min={1} />
+            <div className="flex flex-col gap-4 items-center">
+              <div className="flex flex-col gap-2 w-full">
+                <label htmlFor="cols" className="font-semibold">
+                  Emoji Name
+                </label>
+                <input
+                  type="text"
+                  name="emoji_name"
+                  id="emoji_name"
+                  className="rounded text-base py-2 px-4"
+                  placeholder="e.g. my_custom_emoji"
+                />
               </div>
-              <button className="px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-950">
+              <button className="px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-950 w-full">
                 Generate
               </button>
             </div>

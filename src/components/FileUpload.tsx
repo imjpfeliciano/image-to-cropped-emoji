@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { DropTargetMonitor, useDrop } from "react-dnd";
-import { NativeTypes } from "react-dnd-html5-backend";
+// import { NativeTypes } from "react-dnd-html5-backend";
 import ImagePreviewer from "./ImagePreviewer";
 
 interface FileUploadProps {
@@ -26,7 +26,7 @@ const FileUpload = () => {
 
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
-      accept: [NativeTypes.FILE],
+      accept: "image/*",
       drop: handleDrop,
       collect: (monitor: DropTargetMonitor) => ({
         isOver: monitor.isOver(),
@@ -48,7 +48,7 @@ const FileUpload = () => {
       className="border-2 p-4 flex items-center justify-center rounded border-dashed"
       ref={drop}
     >
-      {isActive ? "Release to drop" : "Drag a file here"}
+      {isActive ? "Release to drop" : "Drag your image here"}
     </div>
   );
 };
