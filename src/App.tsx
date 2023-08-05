@@ -1,4 +1,5 @@
 import FileUpload from "./components/FileUpload";
+import Slider from "./components/Slider";
 
 const App = () => {
   return (
@@ -24,23 +25,19 @@ const App = () => {
           <div className="grid grid-cols-2">
             <div className="flex flex-col gap-4">
               <div className="font-bold flex flex-row gap-2">
-                <label htmlFor="rows">Rows</label>
-                <input
-                  type="number"
-                  name="rows"
-                  id="rows"
-                  className="w-16"
-                  min={1}
+                <Slider
+                  label="Rows"
+                  name="cols"
+                  onValueChange={(value) => console.log({ value })}
+                  defaultValue={2}
                 />
               </div>
               <div className="font-bold flex flex-row gap-2">
-                <label htmlFor="cols">Cols</label>
-                <input
-                  type="number"
+                <Slider
+                  label="Columns"
                   name="cols"
-                  id="cols"
-                  className="w-16"
-                  min={1}
+                  onValueChange={(value) => console.log({ value })}
+                  defaultValue={3}
                 />
               </div>
             </div>
