@@ -4,6 +4,7 @@ interface ImagePreviewerProps {
 }
 
 // TODO: Ask if we should remove bg of the image
+// TODO: Ask if we should crop the image before emoji creation
 const ImagePreviewer: React.FC<ImagePreviewerProps> = ({ file, onReplace }) => (
   <div className="w-full flex flex-col items-center justify-center border-2 border-dashed border-green-400 rounded p-4">
     <img src={URL.createObjectURL(file)} alt="Preview" />

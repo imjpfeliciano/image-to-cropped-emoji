@@ -9,6 +9,7 @@ interface FileUploadProps {
   items: DataTransferItemList;
 }
 
+// TODO: Import image from URL
 const FileUpload = () => {
   const [droppedFiles, setDroppedFiles] = useState<FileUploadProps | null>(
     null
