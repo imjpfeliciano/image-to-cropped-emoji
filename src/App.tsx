@@ -22,7 +22,7 @@ const App = () => {
           <h2 className="font-semibold text-xl mb-4">
             Emoji generation settings
           </h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 items-center gap-4">
             <div className="flex flex-col gap-4">
               <div className="font-bold flex flex-row gap-2">
                 <Slider

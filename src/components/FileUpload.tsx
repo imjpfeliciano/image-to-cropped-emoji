@@ -26,7 +26,7 @@ const FileUpload = () => {
 
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
-      accept: "image/*",
+      accept: ["image/png", "image/jpeg"],
       drop: handleDrop,
       collect: (monitor: DropTargetMonitor) => ({
         isOver: monitor.isOver(),
