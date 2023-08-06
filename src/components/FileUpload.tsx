@@ -1,55 +1,48 @@
-import { useCallback, useState } from "react";
-import { DropTargetMonitor, useDrop } from "react-dnd";
-// import { NativeTypes } from "react-dnd-html5-backend";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import ImagePreviewer from "./ImagePreviewer";
 
-interface FileUploadProps {
-  files: File[];
-  dataTransfer: DataTransfer;
-  items: DataTransferItemList;
-}
-
-// TODO: Import image from URL
 const FileUpload = () => {
-  const [droppedFiles, setDroppedFiles] = useState<FileUploadProps | null>(
-    null
-  );
+  const [acceptedFile, setAcceptedFile] = useState<File | null>();
 
-  const handleDrop = useCallback((acceptedFiles: FileUploadProps) => {
-    console.log(acceptedFiles);
-    setDroppedFiles(acceptedFiles);
-  }, []);
+  const handleFileUpload = (acceptedFiles: File[]) => {
+    setAcceptedFile(acceptedFiles[0]);
+  };
 
-  const handleReset = useCallback(() => {
-    setDroppedFiles(null);
-  }, []);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      "image/png": [".png"],
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/gif": [".gif"],
+      "image/webp": [".webp"],
+    },
+    maxFiles: 1,
+    multiple: false,
+    onDropRejected: (rejectedFiles) => {
+      // TODO: Implement an alert that the file format is not valid
+      console.log({ rejectedFiles });
+    },
+    onDropAccepted: handleFileUpload,
+  });
 
-  const [{ canDrop, isOver }, drop] = useDrop(
-    () => ({
-      accept: ["image/png", "image/jpeg"],
-      drop: handleDrop,
-      collect: (monitor: DropTargetMonitor) => ({
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
-      }),
-    }),
-    [handleDrop]
-  );
-
-  if (droppedFiles && droppedFiles.files.length > 0) {
+  if (acceptedFile) {
     return (
-      <ImagePreviewer file={droppedFiles.files[0]} onReplace={handleReset} />
+      <ImagePreviewer
+        file={acceptedFile}
+        onReplace={() => setAcceptedFile(null)}
+      />
     );
   }
 
-  const isActive = canDrop && isOver;
   return (
-    <div
-      className="border-2 p-4 flex items-center justify-center rounded border-dashed"
-      ref={drop}
-    >
-      {isActive ? "Release to drop" : "Drag your image here"}
-    </div>
+    <section className="rounded border-2 border-dashed p-4 border-blue-400 cursor-pointer text-2xl">
+      <div {...getRootProps({ className: "dropzone" })}>
+        <input {...getInputProps()} />
+        <p className="text-center">
+          Drag 'n' drop some files here, or click to select files
+        </p>
+      </div>
+    </section>
   );
 };
 
