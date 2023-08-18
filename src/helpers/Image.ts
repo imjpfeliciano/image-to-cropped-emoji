@@ -25,6 +25,9 @@ export const getImageSize = async (image: File): Promise<InputImage> => {
  * @param outputFileName
  * @returns {Promise<File[]>}
  */
+
+// TODO: Force cropped images to have square size
+// 95 x 95 so it can be used on slack
 export const cropImage = async (
   image: File,
   columns: number,

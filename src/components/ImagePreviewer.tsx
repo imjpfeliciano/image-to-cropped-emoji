@@ -9,6 +9,7 @@ const PADDING_SIZE = 4;
 
 // TODO: Ask if we should remove bg of the image
 // TODO: Ask if we should crop the image before emoji creation
+// TODO: Pre-fill emoji grid size according to proportions of the image always using square cells
 const ImagePreviewer: React.FC<ImagePreviewerProps> = ({ file, onReplace }) => {
   const { imageSize, grid } = useImage();
   const { width, height } = imageSize;
