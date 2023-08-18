@@ -1,12 +1,13 @@
-import { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { useImage } from "../hooks/useImage";
 import ImagePreviewer from "./ImagePreviewer";
 
+// TODO: Add max size of the image
 const FileUpload = () => {
-  const [acceptedFile, setAcceptedFile] = useState<File | null>();
+  const { image, setImage } = useImage();
 
   const handleFileUpload = (acceptedFiles: File[]) => {
-    setAcceptedFile(acceptedFiles[0]);
+    setImage(acceptedFiles[0]);
   };
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -25,13 +26,8 @@ const FileUpload = () => {
     onDropAccepted: handleFileUpload,
   });
 
-  if (acceptedFile) {
-    return (
-      <ImagePreviewer
-        file={acceptedFile}
-        onReplace={() => setAcceptedFile(null)}
-      />
-    );
+  if (image) {
+    return <ImagePreviewer file={image} onReplace={() => setImage(null)} />;
   }
 
   return (

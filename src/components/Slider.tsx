@@ -28,7 +28,7 @@ const Slider: React.FC<SliderProps> = ({
         renderThumb={(props, state) => (
           <div
             {...props}
-            className="h-8 w-8 flex justify-center items-center bg-purple-600 rounded-full focus:outline-none"
+            className="h-8 w-8 flex cursor-pointer justify-center items-center bg-purple-600 rounded-full focus:outline-none"
           >
             {state.valueNow}
           </div>
