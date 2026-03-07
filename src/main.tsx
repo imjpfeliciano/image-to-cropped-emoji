@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { ImageProvider } from "./hooks/useImage";
@@ -10,5 +11,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <ImageProvider>
       <App />
     </ImageProvider>
-  </React.StrictMode>
+    <Analytics />
+  </React.StrictMode>,
 );

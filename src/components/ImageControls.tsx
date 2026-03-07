@@ -1,3 +1,4 @@
+import { track } from "@vercel/analytics/react";
 import {
   ArrowDownIcon,
   ArrowLeftIcon,
@@ -29,6 +30,11 @@ const ImageControls = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     setGrid((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCropImage = () => {
+    track("crop_image");
+    processImage();
   };
 
   const { width, height } = imageSize;
@@ -143,7 +149,7 @@ const ImageControls = () => {
         <button
           className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-950 w-full disabled:bg-gray-400 disabled:cursor-not-allowed flex flex-row justify-center items-center gap-2"
           disabled={!image || !emojiName}
-          onClick={processImage}
+          onClick={handleCropImage}
         >
           <WandSparklesIcon className="w-6 h-6" />
           <span>Generate Grid</span>
