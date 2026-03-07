@@ -11,12 +11,21 @@ export interface Grid {
   rows: number;
 }
 
+export interface Offset {
+  x: number;
+  y: number;
+}
+
 interface ImageContextType {
   image: File | null;
   setImage: (image: File | null) => void;
   imageSize: { width: number; height: number };
   grid: { columns: number; rows: number };
   setGrid: (grid: Grid) => void;
+  offset: Offset;
+  setOffset: (offset: Offset | ((prev: Offset) => Offset)) => void;
+  zoom: number;
+  setZoom: (zoom: number | ((prev: number) => number)) => void;
   processImage: () => Promise<void> | void;
 }
 
@@ -51,6 +60,8 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
     columns: 1,
     rows: 1,
   });
+  const [offset, setOffset] = useState<Offset>({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     if (!image) return;
@@ -60,6 +71,27 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   }, [image]);
 
+  useEffect(() => {
+    if (!image) {
+      setOffset({ x: 0, y: 0 });
+      setZoom(1);
+    }
+  }, [image]);
+
+  useEffect(() => {
+    const { width, height } = imageSize;
+    if (width <= 0 || height <= 0) return;
+    const cellSize = Math.min(width / grid.columns, height / grid.rows);
+    const gridWidth = cellSize * grid.columns;
+    const gridHeight = cellSize * grid.rows;
+    const maxX = Math.max(0, (width * zoom - gridWidth) / 2);
+    const maxY = Math.max(0, (height * zoom - gridHeight) / 2);
+    setOffset((prev) => ({
+      x: Math.max(-maxX, Math.min(maxX, prev.x)),
+      y: Math.max(-maxY, Math.min(maxY, prev.y)),
+    }));
+  }, [imageSize, grid, zoom]);
+
   const processImage = async () => {
     if (!image) return;
 
@@ -67,7 +99,10 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
       image,
       grid.columns,
       grid.rows,
-      "sample"
+      "sample",
+      offset.x,
+      offset.y,
+      zoom
     );
     const zipFile = await zipFiles(outputFiles);
 
@@ -76,7 +111,18 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <ImageContext.Provider
-      value={{ image, setImage, imageSize, grid, setGrid, processImage }}
+      value={{
+        image,
+        setImage,
+        imageSize,
+        grid,
+        setGrid,
+        offset,
+        setOffset,
+        zoom,
+        setZoom,
+        processImage,
+      }}
     >
       {children}
     </ImageContext.Provider>

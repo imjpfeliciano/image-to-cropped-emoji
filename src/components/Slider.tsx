@@ -5,6 +5,10 @@ interface SliderProps {
   name: string;
   onValueChange: (value: number) => void;
   defaultValue?: number;
+  value?: number;
+  min?: number;
+  max?: number;
+  step?: number;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -12,17 +16,22 @@ const Slider: React.FC<SliderProps> = ({
   name,
   onValueChange,
   defaultValue = 1,
+  value,
+  min = 1,
+  max = 10,
+  step = 1,
 }) => {
+  const isControlled = value !== undefined;
   return (
     <div className="w-full">
       <label htmlFor={name}>{label}</label>
       <ReactSlider
         className="flex items-center bg-gray-200 h-4 rounded-full px-4 mt-2"
-        onChange={(value) => onValueChange(value)}
-        // Track of the slider
-        defaultValue={defaultValue}
-        min={1}
-        max={10}
+        onChange={(val) => onValueChange(typeof val === "number" ? val : val[0])}
+        {...(isControlled ? { value } : { defaultValue })}
+        min={min}
+        max={max}
+        step={step}
         ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
         // Marker
         renderThumb={(props, state) => (

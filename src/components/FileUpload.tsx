@@ -16,6 +16,8 @@ const FileUpload = () => {
       "image/jpeg": [".jpg", ".jpeg"],
       "image/gif": [".gif"],
       "image/webp": [".webp"],
+      "image/svg+xml": [".svg"],
+      "image/avif": [".avif"],
     },
     maxFiles: 1,
     multiple: false,
@@ -31,7 +33,7 @@ const FileUpload = () => {
   }
 
   return (
-    <section className="rounded border-2 border-dashed p-4 border-blue-400 cursor-pointer text-2xl">
+    <section className="rounded border-2 border-dashed p-4 border-blue-400 cursor-pointer text-2xl w-fit max-w-md">
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <p className="text-center">

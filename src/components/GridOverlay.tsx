@@ -1,32 +1,43 @@
-const GridColsMapper: {
-  [key: number]: string;
-} = {
-  1: "grid-cols-1",
-  2: "grid-cols-2",
-  3: "grid-cols-3",
-  4: "grid-cols-4",
-  5: "grid-cols-5",
-  6: "grid-cols-6",
-  7: "grid-cols-7",
-  8: "grid-cols-8",
-  9: "grid-cols-9",
-  10: "grid-cols-10",
-};
-
 interface GridOverlayProps {
   columns: number;
   rows: number;
+  containerWidth: number;
+  containerHeight: number;
 }
 
-const GridOverlay: React.FC<GridOverlayProps> = ({ columns, rows }) => (
-  <div className={`grid ${GridColsMapper[columns]} w-full h-full`}>
-    {Array.from({ length: columns * rows }).map((_, index) => (
+const GridOverlay: React.FC<GridOverlayProps> = ({
+  columns,
+  rows,
+  containerWidth,
+  containerHeight,
+}) => {
+  const cellSize =
+    containerWidth > 0 && containerHeight > 0
+      ? Math.min(containerWidth / columns, containerHeight / rows)
+      : 0;
+  const gridWidth = cellSize * columns;
+  const gridHeight = cellSize * rows;
+
+  return (
+    <div className="w-full h-full flex items-center justify-center">
       <div
-        key={`cell-${index + 1}`}
-        className="border border-purple-400 border-dashed flex items-center justify-center"
-      />
-    ))}
-  </div>
-);
+        className="grid"
+        style={{
+          width: gridWidth,
+          height: gridHeight,
+          gridTemplateColumns: `repeat(${columns}, ${cellSize}px)`,
+          gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
+        }}
+      >
+        {Array.from({ length: columns * rows }).map((_, index) => (
+          <div
+            key={`cell-${index + 1}`}
+            className="border border-purple-400 border-dashed flex items-center justify-center"
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default GridOverlay;

@@ -17,22 +17,22 @@ export const getImageSize = async (image: File): Promise<InputImage> => {
 };
 
 /**
- 
-* Crop an image into a grid of rows x columns
- * @param image
- * @param rows
- * @param columns
- * @param outputFileName
- * @returns {Promise<File[]>}
+ * Crop an image into a grid of rows x columns using square cells.
+ * Uses the same logic as the preview: centered grid, offset, and zoom.
+ * With zoom > 1, each cell samples a smaller region of the image (zoomed in).
+ *
+ * @param offsetX - horizontal offset (positive = image moved right in preview)
+ * @param offsetY - vertical offset (positive = image moved down in preview)
+ * @param zoom - zoom level (1 = full image in view; >1 = zoomed in)
  */
-
-// TODO: Force cropped images to have square size
-// 95 x 95 so it can be used on slack
 export const cropImage = async (
   image: File,
   columns: number,
   rows: number,
-  outputFileName: string
+  outputFileName: string,
+  offsetX = 0,
+  offsetY = 0,
+  zoom = 1
 ): Promise<File[]> => {
   const { width, height } = await getImageSize(image);
 
@@ -41,8 +41,14 @@ export const cropImage = async (
 
   const outputFiles: File[] = [];
 
-  const cropWidth = width / columns;
-  const cropHeight = height / rows;
+  const cellSize = Math.min(width / columns, height / rows);
+  const gridWidth = cellSize * columns;
+  const gridHeight = cellSize * rows;
+  const cropCellSize = cellSize / zoom;
+  const startX = width / 2 - gridWidth / (2 * zoom) - offsetX / zoom;
+  const startY = height / 2 - gridHeight / (2 * zoom) - offsetY / zoom;
+
+  const outputSize = Math.max(1, Math.round(cropCellSize));
 
   const canvasImage = new Image();
   canvasImage.src = URL.createObjectURL(image);
@@ -51,33 +57,23 @@ export const cropImage = async (
     return await new Promise((resolve) => {
       canvasImage.onload = async () => {
         for (let i = 0; i < rows; i++) {
-          const sy = cropHeight * i;
-
           for (let j = 0; j < columns; j++) {
-            const sx = cropWidth * j;
+            const sx = startX + j * cropCellSize;
+            const sy = startY + i * cropCellSize;
 
-            const chunkImageProps = {
-              sx,
-              sy,
-              cropWidth,
-              cropHeight,
-              dx: 0,
-              dy: 0,
-              dWidth: cropWidth,
-              dHeight: cropHeight,
-            };
+            canvas.width = outputSize;
+            canvas.height = outputSize;
 
-            console.log({ chunkImageProps });
             context?.drawImage(
               canvasImage,
               sx,
               sy,
-              cropWidth,
-              cropHeight,
-              0, // destination x
-              0, // destination y
-              cropWidth,
-              cropHeight
+              cropCellSize,
+              cropCellSize,
+              0,
+              0,
+              outputSize,
+              outputSize
             );
             const blob = await new Promise<Blob | null>((resolve) =>
               canvas.toBlob(resolve)
