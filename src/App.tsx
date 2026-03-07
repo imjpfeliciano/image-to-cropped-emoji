@@ -5,8 +5,17 @@ const App = () => {
   return (
     <div className="w-screen h-screen bg-slate-700 text-white flex flex-col">
       <header className="flex flex-row items-center w-full gap-4 p-4 bg-slate-800 shrink-0">
-        <img className="w-8 h-8" src="/cropped-emoji-logo.png" alt="app-icon" />
-        <h1 className="text-2xl font-bold">Image to cropped slack emoji</h1>
+        <img
+          className="w-12 h-12"
+          src="/cropped-emoji-logo.png"
+          alt="app-icon"
+        />
+        <div className="flex flex-col gap-2">
+          <h1 className="text-2xl font-bold">Crop Emoji App</h1>
+          <p className="text-sm text-gray-400">
+            Upload an image and crop it into a grid of squares.
+          </p>
+        </div>
       </header>
       <main className="flex flex-row gap-4 h-[calc(100%-100px)]">
         <ImageControls />
