@@ -1,3 +1,4 @@
+import { RefreshCcwIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useImage } from "../hooks/useImage";
 import GridOverlay from "./GridOverlay";
@@ -30,7 +31,7 @@ const ImagePreviewer: React.FC<ImagePreviewerProps> = ({ file, onReplace }) => {
       if (clientWidth <= 0 || clientHeight <= 0) return;
       const scale = Math.min(
         clientWidth / contentWidth,
-        clientHeight / contentHeight
+        clientHeight / contentHeight,
       );
       setFitScale(scale);
     };
@@ -46,12 +47,13 @@ const ImagePreviewer: React.FC<ImagePreviewerProps> = ({ file, onReplace }) => {
   const scaledHeight = contentHeight * scale;
 
   return (
-    <div className="w-full h-full flex flex-col gap-4 min-h-0">
+    <div className="w-full h-full flex flex-col gap-4 min-h-0 p-4">
       <p className="text-sm text-slate-300 text-center max-w-md shrink-0">
         <span className="text-purple-400 font-medium">Purple grid</span> — Each
         cell is one image in the result.{" "}
-        <span className="text-green-400 font-medium">Green area</span> — Anything
-        outside the grid is cropped out and will not appear in the output.
+        <span className="text-green-400 font-medium">Green area</span> —
+        Anything outside the grid is cropped out and will not appear in the
+        output.
       </p>
       <div
         ref={containerRef}
@@ -103,9 +105,10 @@ const ImagePreviewer: React.FC<ImagePreviewerProps> = ({ file, onReplace }) => {
 
       <button
         onClick={onReplace}
-        className="px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-950 shrink-0"
+        className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-950 shrink-0 w-fit mx-auto flex flex-row justify-center items-center gap-2"
       >
-        Replace
+        <RefreshCcwIcon className="w-6 h-6" />
+        <span>Reset</span>
       </button>
     </div>
   );

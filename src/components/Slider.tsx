@@ -26,8 +26,11 @@ const Slider: React.FC<SliderProps> = ({
     <div className="w-full">
       <label htmlFor={name}>{label}</label>
       <ReactSlider
+        key={name}
         className="flex items-center bg-gray-200 h-4 rounded-full px-4 mt-2"
-        onChange={(val) => onValueChange(typeof val === "number" ? val : val[0])}
+        onChange={(val) =>
+          onValueChange(typeof val === "number" ? val : val[0])
+        }
         {...(isControlled ? { value } : { defaultValue })}
         min={min}
         max={max}

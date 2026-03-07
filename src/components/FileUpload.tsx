@@ -33,14 +33,15 @@ const FileUpload = () => {
   }
 
   return (
-    <section className="rounded border-2 border-dashed p-4 border-blue-400 cursor-pointer text-2xl w-fit max-w-md">
-      <div {...getRootProps({ className: "dropzone" })}>
-        <input {...getInputProps()} />
-        <p className="text-center">
-          Drag 'n' drop some files here, or click to select files
-        </p>
-      </div>
-    </section>
+    <div
+      {...getRootProps({ className: "dropzone" })}
+      className="rounded border-2 border-dashed p-4 border-blue-400 cursor-pointer text-2xl w-[calc(100%-100px)] h-[calc(100%-100px)] m-auto"
+    >
+      <input {...getInputProps()} />
+      <p className="text-center">
+        Drag 'n' drop some files here, or click to select files
+      </p>
+    </div>
   );
 };
 

@@ -27,6 +27,8 @@ interface ImageContextType {
   zoom: number;
   setZoom: (zoom: number | ((prev: number) => number)) => void;
   processImage: () => Promise<void> | void;
+  emojiName: string;
+  setEmojiName: (emojiName: string) => void;
 }
 
 const ImageContext = createContext<ImageContextType | null>(null);
@@ -52,9 +54,10 @@ const initialSize = { width: 0, height: 0 };
 export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const [emojiName, setEmojiName] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
   const [imageSize, setImageSize] = useState<{ width: number; height: number }>(
-    initialSize
+    initialSize,
   );
   const [grid, setGrid] = useState<{ columns: number; rows: number }>({
     columns: 1,
@@ -99,14 +102,14 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
       image,
       grid.columns,
       grid.rows,
-      "sample",
+      emojiName,
       offset.x,
       offset.y,
-      zoom
+      zoom,
     );
     const zipFile = await zipFiles(outputFiles);
 
-    downloadBlob(zipFile, `${image.name}.zip`);
+    downloadBlob(zipFile, `${emojiName}.zip`);
   };
 
   return (
@@ -122,6 +125,8 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
         zoom,
         setZoom,
         processImage,
+        emojiName,
+        setEmojiName,
       }}
     >
       {children}
