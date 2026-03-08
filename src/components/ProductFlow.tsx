@@ -22,7 +22,10 @@ const ProductFlowStep = ({
 
 const ProductFlow = () => {
   return (
-    <div className="max-w-screen-2xl mx-auto p-8 flex flex-col gap-4 text-center">
+    <div
+      id="how-it-works"
+      className="max-w-screen-2xl mx-auto p-8 flex flex-col gap-4 text-center"
+    >
       <h2 className="text-4xl font-bold text-white">Three simple steps</h2>
       <p>Supercharge your Slack emojis in under 30 seconds.</p>
 

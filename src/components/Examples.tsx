@@ -8,7 +8,10 @@ const SlackCardExample = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="flex flex-col gap-2 border border-indigo-600 rounded-lg p-4 w-full">
+    <div
+      className="flex flex-col gap-2 border border-indigo-600 rounded-lg p-4 w-full"
+      id="examples"
+    >
       <h3 className="text-2xl font-bold text-white">{title}</h3>
 
       {/* Slack card from message example */}
