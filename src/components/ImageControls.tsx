@@ -1,4 +1,3 @@
-import { track } from "@vercel/analytics/react";
 import {
   ArrowDownIcon,
   ArrowLeftIcon,
@@ -8,6 +7,7 @@ import {
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
+import { track } from "../helpers/analytics";
 import { useImage } from "../hooks/useImage";
 import Slider from "./Slider";
 
@@ -48,10 +48,10 @@ const ImageControls = () => {
   const maxOffsetY = Math.max(0, (height * zoom - gridHeight) / 2);
 
   return (
-    <div className="w-fit bg-slate-600 border-r-2 p-4">
+    <div className="w-fit min-h-[500px] p-4">
       <h2 className="font-semibold text-xl mb-4">Crop settings</h2>
 
-      <div className="flex flex-col justify-between h-[calc(100%-100px)]">
+      <div className="flex flex-col justify-between min-h-[400px]">
         <div className="flex flex-col justify-between gap-4">
           <label htmlFor="cols" className="font-semibold">
             Emoji Name
